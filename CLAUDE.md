@@ -1,0 +1,1 @@
+This is a static site deployed via Cloudflare Pages from the GitHub repo fusion-website. After making any change to any file, always commit and push to main so the change goes live. Do not wait to be asked.
