@@ -47,7 +47,8 @@ sections.forEach(s => observer.observe(s));
 
 // ---- Scroll-in animations ----
 const animateEls = document.querySelectorAll(
-  '.service-card, .why-card, .testimonial-card, .about-grid, .contact-grid, .booking-wrap'
+  '.service-card, .why-card, .testimonial-card, .about-grid, .contact-grid, .booking-wrap, ' +
+  '.hydra-feature-media, .hydra-feature-copy, .hydra-results-inner, .hydra-benefit-card'
 );
 
 const fadeObserver = new IntersectionObserver(entries => {
@@ -129,6 +130,52 @@ if (heroVideo) {
   const tryPlay = () => heroVideo.play().catch(() => {});
   window.addEventListener('load', tryPlay);
   document.addEventListener('touchstart', tryPlay, { once: true });
+}
+
+// ---- FAQ accordion (HydraFacial page) ----
+const faqItems = document.querySelectorAll('.faq-item');
+
+if (faqItems.length) {
+  const closeFaq = item => {
+    const btn = item.querySelector('.faq-q');
+    const ans = item.querySelector('.faq-a');
+    item.classList.remove('open');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+    if (ans) ans.style.maxHeight = '';
+  };
+
+  const openFaq = item => {
+    const btn = item.querySelector('.faq-q');
+    const ans = item.querySelector('.faq-a');
+    item.classList.add('open');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+    if (ans) ans.style.maxHeight = ans.scrollHeight + 'px';
+  };
+
+  faqItems.forEach(item => {
+    const btn = item.querySelector('.faq-q');
+    if (!btn) return;
+
+    btn.addEventListener('click', () => {
+      const wasOpen = item.classList.contains('open');
+      // One question open at a time
+      faqItems.forEach(closeFaq);
+      if (!wasOpen) openFaq(item);
+    });
+  });
+
+  // Keep the open answer correctly sized if the viewport reflows
+  window.addEventListener('resize', () => {
+    const open = document.querySelector('.faq-item.open');
+    if (open) {
+      const ans = open.querySelector('.faq-a');
+      if (ans) {
+        ans.style.maxHeight = 'none';
+        const h = ans.scrollHeight;
+        ans.style.maxHeight = h + 'px';
+      }
+    }
+  });
 }
 
 // ---- Transformation journey — staggered reveal ----
