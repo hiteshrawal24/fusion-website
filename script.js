@@ -47,8 +47,9 @@ sections.forEach(s => observer.observe(s));
 
 // ---- Scroll-in animations ----
 const animateEls = document.querySelectorAll(
-  '.service-card, .why-card, .testimonial-card, .about-grid, .contact-grid, .booking-wrap, ' +
-  '.hydra-feature-media, .hydra-feature-copy, .hydra-results-inner, .hydra-benefit-card'
+  '.service-tile, .why-card, .testimonial-card, .about-grid, .contact-grid, .booking-wrap, ' +
+  '.hydra-feature-media, .hydra-feature-copy, .hydra-results-inner, .hydra-benefit-card, ' +
+  '.svc-intro-inner, .svc-benefit, .svc-step'
 );
 
 const fadeObserver = new IntersectionObserver(entries => {
@@ -131,6 +132,14 @@ if (heroVideo) {
   window.addEventListener('load', tryPlay);
   document.addEventListener('touchstart', tryPlay, { once: true });
 }
+
+// ---- Service photos: fall back to the gradient if a photo is missing ----
+// Keeps tiles looking intentional before the images are supplied.
+document.querySelectorAll('.service-tile-img, .svc-hero-img').forEach(img => {
+  const hide = () => { img.style.display = 'none'; };
+  img.addEventListener('error', hide);
+  if (img.complete && img.naturalWidth === 0) hide();
+});
 
 // ---- FAQ accordion (HydraFacial page) ----
 const faqItems = document.querySelectorAll('.faq-item');
