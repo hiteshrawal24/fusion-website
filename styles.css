@@ -1312,15 +1312,20 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; line-height: 1.2;
   position: relative;
   border-radius: calc(var(--radius) * 1.5);
   overflow: hidden;
-  aspect-ratio: 4 / 5;
-  /* Soft brand gradient shows through until the photo is dropped in */
-  background: linear-gradient(150deg, var(--pink-light) 0%, var(--pink-pale) 55%, var(--white) 100%);
+  aspect-ratio: 3 / 4;
+  padding: 1.75rem;
+  /* Soft light "stage" so the machine's dark body reads clearly on both the
+     pale homepage section and the dark hero on /hydrafacial */
+  background: radial-gradient(ellipse at 50% 38%, var(--white) 0%, var(--pink-pale) 70%, var(--pink-light) 100%);
   box-shadow: var(--shadow-lg);
 }
+/* The machine photo has a transparent background — contain it so the full
+   unit is always visible and never cropped */
 .hydra-media-frame img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 28px rgba(0,0,0,0.10));
   transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
@@ -1657,7 +1662,8 @@ h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; line-height: 1.2;
     margin-bottom: 1.8rem;
   }
   .hydra-feature-copy .btn { justify-content: center; }
-  .hydra-media-frame { aspect-ratio: 4 / 3; }
+  /* Portrait product shot — keep a portrait frame on mobile too */
+  .hydra-media-frame { aspect-ratio: 4 / 5; padding: 1.25rem; }
 
   /* ---- Page hero: stack, text first ---- */
   .hydra-hero {
